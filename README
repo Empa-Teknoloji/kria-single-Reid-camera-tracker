@@ -3,6 +3,23 @@
 * SPDX-License-Identifier: Apache-2.0
 ******************************************************************************/
 
+# Kria Single Camera Tracker
+
+This project is a modified version of the original Xilinx aibox-dist project, 
+adapted for single camera tracking applications.
+
+## Original Project Attribution
+
+This work is based on the Xilinx aibox-dist project:
+- **Original Repository**: https://github.com/Xilinx/aibox-dist
+- **License**: Apache-2.0
+- **Copyright**: (C) 2010 - 2021 Xilinx, Inc.
+
+## Modifications
+
+This version has been modified to support single camera tracking, removing the 
+multi-camera distributed architecture from the original project.
+
 1. Development Guide
 
     If you want to cross compile the source in Linux PC machine, follow these steps, otherwise skip this section.
