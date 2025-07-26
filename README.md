@@ -1,14 +1,19 @@
-<h1 align="center">AIBOX DISTRIBUTED REID APPLICATION</h1>
+<h1 align="center">KRIA SINGLE CAMERA REID TRACKER</h1>
 
 ## Introduction
-This repository contains source code of AIBox Distributed ReID application. 
-The AIBox Distribution accelerated application performs distributed, scalable, multi-stream cross tracking and Re-Identification. The application leverages machine learning for pedestrian tracking and decoding multiple camera streams and performs pedestrian detection and tracking across camera feeds. Common applications include smart cities, retail analytics, and video analytics.
+This repository contains source code of Kria Single Camera ReID Tracker application. 
+This application is a modified version of the original Xilinx aibox-dist project, adapted for single camera tracking applications. The application performs real-time pedestrian detection, tracking, and Re-Identification on a single camera stream using machine learning acceleration on Xilinx Kria SoM platforms.
 
-<div align="center">
-  <img src="./media/aibox-dist-landing.png" width=700>
-</div>
+## Original Project Attribution
 
-For detailed documentation of this application please visit the [documentation page](https://xilinx.github.io/kria-apps-docs/kv260/2022.1/build/html/docs/aibox/aibox-dist_landing.html)
+This work is based on the Xilinx aibox-dist project:
+- **Original Repository**: https://github.com/Xilinx/aibox-dist
+- **License**: Apache-2.0
+- **Copyright**: (C) 2010 - 2021 Xilinx, Inc.
+
+## Modifications
+
+This version has been modified to support single camera tracking, removing the multi-camera distributed architecture from the original project.
 
 ## Development Guide
 
@@ -26,27 +31,27 @@ A step by step tutorial and details on how to setup the board and run this appli
 
 ### **How to Run The Application**
 
-This application consists of up to 4 server side image capturing boards with camera, and 1 client side monitoring board. So accordingly there are different binary executable to be run on **server** or **client**.
+This application is designed for single camera tracking with pedestrian detection and ReID capabilities.
 
-### Start The Server Application
+### Start The Application
 
 **Note** The application needs to be run with ***sudo***.
 
 #### Examples
 
-  This example starts capturing by using the MIPI camera as input source.
+  This example starts tracking by using the MIPI camera as input source.
 
   ```bash
   sudo aibox-dist-cam -m 
   ```
 
-  You can also start the streaming by using video files as the input source, actually, this is the recommended mode to start with.
+  You can also start the tracking by using video files as the input source, this is the recommended mode to start with.
 
   ```bash
-  sudo aibox-dist-cam -f cros.1.1080.h264
+  sudo aibox-dist-cam -f video_file.h264
   ```
 
-**Note**: Only one instance of aibox-dist-cam application can run at a time because it requires exclusive access to a DPU engine and there is only one instance of DPU that exists in the aibox-cam platform.
+**Note**: Only one instance of aibox-dist-cam application can run at a time because it requires exclusive access to a DPU engine and there is only one instance of DPU that exists in the platform.
 
 ##### Command Options
 
@@ -58,7 +63,7 @@ User can get more and detailed application options as following by invoking
 
 ```
 Usage:
-  aibox-dist-cam [OPTION?] - Application for facedetion detction on SoM board of Xilinx.
+  aibox-dist-cam [OPTION?] - Single camera tracking application with pedestrian detection and ReID on Xilinx Kria SoM.
 
 Help Options:
   -h, --help                        Show help options
@@ -91,53 +96,9 @@ Application Options:
   --encodeEnhancedParam             String for fully customizing the encoder in the form "param1=val1, param2=val2,...", where paramn is the name of the encoder parameter
 ```
 
-### Start The Client Application
+### Display and Monitoring
 
-#### Command Line
-
-**Note** The application needs to be run with ***sudo***.
-
-#### Examples
-
-  ```bash
-  sudo aibox-dist-monitor -s rtsp://address-of-cam-1 -t r -s rtsp://address-of-cam-2 -t r -S 1
-  ```
-
-**Note** Above example is for live steam capturing from camera, if you are starting with the video file streaming way which we recommended as a start point, please **remove the option "-S 1"** as.
-
-  ```bash
-  sudo aibox-dist-monitor -s rtsp://address-of-cam-1 -t r -s rtsp://address-of-cam-2 -t r
-  ```
-
-**Note**: Only one instance of aibox-dist-monitor application can run at a time because it requires exclusive access to a DPU engine and there is only one instance of DPU that exists in the aibox-monitor platform.
-
-##### Command Options
-
-User can get more and detailed application options as following by invoking
-
-`aibox-dist-monitor --help`
-
-```
-Usage:
-  aibox-dist-monitor [OPTION?] - AI Application of pedestrian + reid + tracking for multi RTSP streams, on SoM board of Xilinx.
-
-Help Options:
-  -h, --help                                                        Show help options
-  --help-all                                                        Show all help options
-  --help-gst                                                        Show GStreamer Options
-
-Application Options:
-  -s, --src=[rtsp://server:port/id |file path]                      URI of rtsp src, or location of h264|h265 video file. Must set. Can set up to 4 times
-  -S, --syncType                                                    Sync Type: 0: Sync for file based stream; 1: Sync for live stream
-  -I, --indTol                                                      Tolerance value used by syncType 0: number of frame
-  -T, --timeTol                                                     Tolerance value used by syncType 1: microsecond
-  -e, --srcenc=[h264|h265]                                          Encoding type of the input source. Optional. Can set up to 4 times.
-  -p, --pos=[0|1|2|3]                                               Location of the display in the 4 grids of 4k monitor. Optional. 0: top left, 1: top right, 2: bottom left, 3: bottom right. Optional. Can set up to 4 times.
-  -r, --framerate=auto                                              Framerate of the input. Optional. Can set up to 4 times.
-  -R, --report                                                      Report fps
-  -c, --config=/opt/xilinx/kv260-aibox-dist/share/vvas/cam_setup.json     System calibration json file path
-
-```
+The single camera tracker application provides real-time display of tracking results with pedestrian detection and ReID visualization directly on the connected display or through RTSP streaming.
 
 ## Files structure
 
@@ -147,8 +108,7 @@ The application is installed as:
 
   | filename | description |
   |----------|-------------|
-  |aibox-dist-cam | app for camera board|
-  |aibox-dist-monitor | app for monitor board|
+  |aibox-dist-cam | Single camera tracking application with pedestrian detection and ReID|
 
 * Configuration file directory: /opt/xilinx/kv260-aibox-dist/share/ivas/
 
