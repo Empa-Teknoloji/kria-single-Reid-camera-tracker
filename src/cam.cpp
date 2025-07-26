@@ -405,11 +405,11 @@ main (int argc, char *argv[])
     putenv((char*)setPath.c_str());
 
     pathVar = std::getenv("LD_LIBRARY_PATH");
-    setPath = std::string("LD_LIBRARY_PATH=/opt/xilinx/kv260-aibox-dist/lib:") + (pathVar ? std::string(pathVar) : "");
+    setPath = std::string("LD_LIBRARY_PATH=/opt/xilinx/kv260-aibox-dist/lib:/home/ubuntu/aibox-dist/build/cros_mt_reid/src") + (pathVar ? std::string(pathVar) : "");
     putenv((char*)setPath.c_str());
 
     pathVar = std::getenv("GST_PLUGIN_PATH");
-    setPath = std::string("GST_PLUGIN_PATH=/opt/xilinx/kv260-aibox-dist/lib:") + (pathVar ? std::string(pathVar) : "");
+    setPath = std::string("GST_PLUGIN_PATH=/opt/xilinx/kv260-aibox-dist/lib:/home/ubuntu/aibox-dist/build/cros_mt_reid/src") + (pathVar ? std::string(pathVar) : "");
     putenv((char*)setPath.c_str());
 
     GMainLoop *loop;
@@ -515,7 +515,10 @@ main (int argc, char *argv[])
                 t.src_1 \
                 ! queue ! scalem.sink_slave_0 scalem.src_slave_0 \
                 ! queue ! vvas_xfilter kernels-config=\"%s/reid.json\" \
+                ! vvas_xfilter kernels-config=\"%s/draw_reid.json\" \
+                ! vvas_xmetaaffixer name=drawreid \
                 "
+                , confdir.c_str()
                 , confdir.c_str()
                 , confdir.c_str()
                 , confdir.c_str()

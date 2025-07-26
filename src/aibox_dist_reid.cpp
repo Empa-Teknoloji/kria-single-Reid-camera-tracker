@@ -264,6 +264,7 @@ int32_t xlnx_kernel_start(VVASKernel *handle, int start /*unused */,
         m__TIC__(reidrun);
         auto reid_result = kernel_priv->det->run(image);
         auto feat = reid_result.feat;
+        
         m__TOC__(reidrun);
 
         auto ori = kernel_priv->orientation->run(image).scores[0].index;

@@ -56,12 +56,17 @@ target_link_libraries(aibox_dist_crop
   glib-2.0 gobject-2.0 ${OpenCV_LIBS} jansson vvasutil-2.0 gstvvasinfermeta-2.0 glog)
 install(TARGETS aibox_dist_crop DESTINATION ${INSTALL_PATH}/lib)
 
-add_library(aibox_dist_drawreid SHARED src/aibox_dist_drawreid.cpp)
-target_include_directories(aibox_dist_drawreid PRIVATE ${GSTREAMER_INCLUDE_DIRS})
+add_library(aibox_dist_drawreid SHARED src/aibox_dist_drawreid.cpp )
+target_include_directories(aibox_dist_drawreid PRIVATE ${GSTREAMER_INCLUDE_DIRS} cros_mt_reid/src/)
 target_link_libraries(aibox_dist_drawreid
   gstapp-1.0 gstreamer-1.0 gstbase-1.0 gobject-2.0 glib-2.0 gstvideo-1.0 gstallocators-1.0 gstrtsp-1.0 gstrtspserver-1.0
-  glib-2.0 gobject-2.0 ${OpenCV_LIBS}  jansson vvasutil-2.0 gstvvasinfermeta-2.0)
-install(TARGETS aibox_dist_drawreid DESTINATION ${INSTALL_PATH}/lib)
+  glib-2.0 gobject-2.0 ${OpenCV_LIBS}  jansson vvasutil-2.0 gstvvasinfermeta-2.0 cros_mt_reid)
+# Set the RPATH to include the directory where libcros_mt_reid.so is located
+set_target_properties(aibox_dist_drawreid PROPERTIES 
+  INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${INSTALL_PATH}/lib;${CMAKE_BINARY_DIR}/cros_mt_reid/src"
+  BUILD_WITH_INSTALL_RPATH TRUE)
+install(TARGETS aibox_dist_drawreid DESTINATION ${INSTALL_PATH}/lib )
+add_dependencies(aibox_dist_drawreid cros_mt_reid)
 
 add_library(aibox_dist_pedpp SHARED src/aibox_dist_pedpp.c)
 target_include_directories(aibox_dist_pedpp PRIVATE ${GSTREAMER_INCLUDE_DIRS})
